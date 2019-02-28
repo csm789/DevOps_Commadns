@@ -1,0 +1,181 @@
+https://github.com/kubernetes/dashboard/wiki/Creating-sample-user
+https://github.com/kubernetes/dashboard
+chgoutam@gmail.com
+
+	Kubernetes:
+	> Kubernetes coordinates a highly available cluster of computers that are connected to work as a single unit.
+	> Kubernetes automates the distribution and scheduling of application containers across a cluster in a more efficient way. 
+	> A Kubernetes cluster consists of two types of resources:
+		- The Master coordinates the cluster
+		- Nodes are the workers that run applications
+	> The Master is responsible for managing the cluster.
+	> The nodes communicate with the master using the Kubernetes API.
+Cluster up and running
+		- minikube version
+		- minikube start
+		- kubectl version	(Kubernetes master is running at https://172.17.0.27:8443)
+		- kubectl get nodes
+				NAME       STATUS    ROLES     AGE       VERSION
+				minikube   Ready     <none>    2m        v1.10.0
+Kubernetes Deployments
+    > Once you have a running Kubernetes cluster, you can deploy your containerized applications on top of it.
+    > Once you've created a Deployment, the Kubernetes master schedules mentioned application instances onto individual Nodes in the cluster.
+    > Once the application instances are created, a Kubernetes Deployment Controller continuously monitors those instances. If the Node hosting an instance goes down or is deleted, the Deployment
+      controller replaces it. This provides a self-healing mechanism to address machine failure or maintenance.
+    > You can create and manage a Deployment by using the Kubernetes command line interface, Kubectl
+    > Kubectl uses the Kubernetes API to interact with the cluster.
+    > When you create a Deployment, you'll need to specify the container image for your application and the number of replicas that you want to run, You can change that information later by updating your 
+      Deployment.
+ Deploy our App
+ 	> The run command creates a new deployment
+ 	> We need to provide the deployment name and app image location (include the full repository url for images hosted outside Docker hub). We want to run the app on a specific port so we add the --port
+ 	  parameter
+    	- kubectl run kubernetes-bootcamp --image=gcr.io/google-samples/kubernetes-bootcamp:v1 --port=8080
+    	- kubectl get deployments
+    > Pods that are running inside Kubernetes are running on a private, isolated network. By default they are visible from other pods and services within the same kubernetes cluster, but not outside that 
+      network. When we use kubectl, we're interacting through an API endpoint to communicate with our application.
+    > The kubectl command can create a proxy that will forward communications into the cluster-wide, private network. The proxy can be terminated by pressing control-C and won't show any output while its running. 	-kubectl proxy
+Kubernetes Pods
+		- Kubernetes Pods.
+		- Kubernetes Nodes.
+		- Kubernetes Nodes.
+	> A Pod is a Kubernetes abstraction that represents a group of one or more application containers (such as Docker or rkt), and some shared resources for those containers. Those resources include:
+	> Shared storage, as Volumes
+	> Networking, as a unique cluster IP address
+	> Information about how to run each container, such as the container image version or specific ports to use
+	> follow (https://v1-12.docs.kubernetes.io/docs/tutorials/kubernetes-basics/explore/explore-intro/)
+Kubernetes Node
+	> A Pod always runs on a Node. A Node is a worker machine in Kubernetes and may be either a virtual or a physical machine, depending on the cluster. Each Node is managed by the Master. A Node can have 
+	  multiple pods, and the Kubernetes master automatically handles scheduling the pods across the Nodes in the cluster. The Master's automatic scheduling takes into account the available resources on each Node.
+	> Every Kubernetes Node runs at least: 
+		- Kubelet, a process responsible for communication between the Kubernetes Master and the Node; it manages the Pods and the containers running on a machine. 
+		- A container runtime (like Docker, rkt) responsible for pulling the container image from a registry, unpacking the container, and running the application.
+    > To get information about deployed applications and their environments. The most common operations can be done with the following kubectl commands: 
+    	(https://v1-12.docs.kubernetes.io/docs/tutorials/kubernetes-basics/explore/explore-interactive/)
+        - kubectl get - list resources 
+        - kubectl describe - show detailed information about a resource
+        - kubectl logs - print the logs from a container in a pod
+        - kubectl exec - execute a command on a container in a pod
+    - kubectl get pods
+    - kubectl describe Pods
+    - kubectl proxy
+    - export POD_NAME=$(kubectl get pods -o go-template --template '{{range .items}}{{.metadata.name}}{{"\n"}}{{end}}') echo Name of the Pod: $POD_NAME
+    - curl http://localhost:8001/api/v1/namespaces/default/pods/$POD_NAME/proxy/
+    - kubectl logs $POD_NAME
+    - kubectl exec $POD_NAME env
+    - kubectl exec -ti $POD_NAME bash
+    - cat server.js
+    - curl localhost:8080
+ Create a new service
+ 	- kubectl create service (clusterip, loadbalancer, nodeport, externalName) (Name of the deployemnt: nginx) --tcp=80:80
+ 	- kubectl get svc nginx
+ 	- kubectl delete service nginx
+ 	- ingress:
+ 		{
+ 		kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/mandatory.yaml
+ 		kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/provider/baremetal/service-nodeport.yaml
+ 		}
+ 	- kubectl get pods
+ 	- kubectl get services
+ 	- kubectl expose deployment/kubernetes-bootcamp --type="NodePort" --port 8080
+ 	- kubectl get services
+ 	- kubectl describe services/kubernetes-bootcamp
+ 	- export NODE_PORT=$(kubectl get services/kubernetes-bootcamp -o go-template='{{(index .spec.ports 0).nodePort}}') echo NODE_PORT=$NODE_PORT
+ 	- curl $(minikube ip):$NODE_PORT
+ 	- kubectl describe deployment
+ 	- kubectl get pods -l run=kubernetes-bootcamp
+ 	- kubectl get services -l run=kubernetes-bootcamp
+ 	- export POD_NAME=$(kubectl get pods -o go-template --template '{{range .items}}{{.metadata.name}}{{"\n"}}{{end}}') echo Name of the Pod: $POD_NAME
+ 	- kubectl label pod $POD_NAME app=v1
+ 	- kubectl describe pods $POD_NAME
+ 	- kubectl get pods -l app=v1
+ Delete the service
+ 	- kubectl delete service -l run=kubernetes-bootcamp
+ 	- kubectl get services
+ 	- curl $(minikube ip):$NODE_PORT
+ 	- kubectl exec -ti $POD_NAME curl localhost:8080
+Scaling a deployment
+	- kubectl get deployments
+	- kubectl scale deployments/kubernetes-bootcamp --replicas=4
+	- kubectl get deployments (you can see 4 now)
+	- kubectl get pods -o wide
+	- kubectl describe deployments/kubernetes-bootcamp
+Load Balancing
+	- kubectl describe services/kubernetes-bootcamp
+	- export NODE_PORT=$(kubectl get services/kubernetes-bootcamp -o go-template='{{(index .spec.ports 0).nodePort}}') echo NODE_PORT=$NODE_PORT
+	- curl $(minikube ip):$NODE_PORT
+Scale Down
+	- kubectl scale deployments/kubernetes-bootcamp --replicas=2
+	- kubectl get deployment
+	- kubectl get pods -o wide
+Update the version of the app
+	- kubectl get deployments
+	- kubectl get pods
+	- kubectl describe pods
+	- kubectl set image deployments/kubernetes-bootcamp kubernetes-bootcamp=jocatalin/kubernetes-bootcamp:v2
+	- kubectl get pods
+Verify an update
+	- kubectl describe services/kubernetes-bootcamp
+	- export NODE_PORT=$(kubectl get services/kubernetes-bootcamp -o go-template='{{(index .spec.ports 0).nodePort}}') echo NODE_PORT=$NODE_PORT
+	- curl $(minikube ip):$NODE_PORT
+	- kubectl rollout status deployments/kubernetes-bootcamp
+	- kubectl describe pods
+Rollback an update
+	- kubectl set image deployments/kubernetes-bootcamp kubernetes-bootcamp=gcr.io/google-samples/kubernetes-bootcamp:v10
+	- kubectl get deployments
+	- kubectl get pods
+	- kubectl describe pods
+	- kubectl rollout undo deployments/kubernetes-bootcamp
+	- kubectl get pods
+	- kubectl describe pods
+
+Kubernetes Points:
+	> K8s will inspect your Infrastructure.
+	> K8s will identifies the memory requirnments for your container and finds the best server satisfies your request.
+	> Watch Macanizam
+	> ETCD has watch feature and this will store the configuration data of kubernetes cluster.
+	> The main job of the Secheduler (In the form of algaritham) is to allocate what node the pods need to be created and send back the the info to API Server
+	> Controller Manager watch the state of the cluster through the API Server whatch feture and notifies and responsible for nesscessary changes attempting to move the current state to desire state.
+
+Installation of Kubernertes on AWS: Ubuntu 16.04
+Step-1	> Create EC2 instance with minimum requirnment 10Gb and t2 Medium and also Elastic Ip associated to this instance.
+		> Change hostname with this command hostname set-hostname ec2-3-93-30-240.compute-1.amazonaws.com
+Step -2	> swapoff -a
+	 	> apt-get install -y apt-transport-https ca-certificates curl software-properties-common
+	 	> curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add - (This command will add the repository)
+	 	> add-apt-repository "deb htpps://download.docker.com/linux/$(. /etc/os-release; echo "$ID") $(lsb_release -cs) stable" (This command will update the repository)
+	 	> you can see the source list vi /etc/apt sources.list
+	 	> apt-get update
+	 	> apt-get install -y docker-ce
+	 	> apt-get update && apt-get install -y apt-transport-https curl
+		> curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -
+ 		> cat <<EOF >/etc/apt/sources.list.d/kubernetes.list
+    		deb https://apt.kubernetes.io/ kubernetes-xenial main
+			EOF
+		> apt-get update
+		> apt-get install -y kubelet kubeadm kubectl
+		> apt-mark hold kubelet kubeadm kubectl
+	 	> cd /etc/apt
+	 	> kubeadm init (This command will initialise as Master Schduler, Controller, API Server
+	 	> exit (And add the node)
+	 	> kubeadm join 172.31.21.252:6443 --token 4vmhfh.v73pacuvod07lee7 --discovery-token-ca-cert-hash sha256:f27a23c641d0e47a7ab6d92004bd79bb9b323e3bc7b77e99cab2953fcbed50db
+	 	> mkdir -p $HOME/.kube
+		> sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+		> sudo chown $(id -u):$(id -g) $HOME/.kube/config
+		> sudo sysctl net.bridge.bridge-nf-call-iptables=1 (We need to setup network by using Weave Net by running this command on Kube-Mater)
+		> kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$(kubectl version | base64 | tr -d '\n')" (It will create network like a mesh, so we can connect with this net)
+		> kubectl get pods --all-namespaces (this will show all up and running)
+K8s usefull Commands:
+
+	> kubectl apply -f file.yaml
+	> kubectl create -f file.yaml
+	> kubectl get nodes
+	> kubectl get pods
+	> kubectl describe podname
+	> kubectl get pod -o wide
+	> kubectl delete podname -f
+	> kubectl set image deployment.v1.apps/nginx-deploy nginx-deploy-app=nginx:1.15.4 --record
+	>  kubectl rollout status deployment.v1.apps/nginx-deploy
+	> kubectl describe deployment | grep Image (you can see the output as Nginx and its version)
+	> kubectl get service/my-service (for checking the port to the external world)
+	> kubectl get svc -n kube-syatem

@@ -1,0 +1,6 @@
+
+	*Octopus Deployments* Port 80
+	> Agent Tentacle
+	> Octopus Thumbprint Port 10933 (Lisining Mode- TCP mode)
+	> polling mode- tcp 10943
+	> 

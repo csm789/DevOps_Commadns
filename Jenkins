@@ -1,0 +1,85 @@
+# Jenkins #
+> https://github.com/nrayapati
+
+Important Points:
+ > 
+
+
+Plugins: I have used Plugins in the Jenkins
+1. Git
+2. SonarQube
+3. Checkstyle
+4. Python
+5. Docker
+6. Ansible
+7. Pipeline
+
+
+> yum install -y java-1.8.0-openjdk-devel >/dev/null
+> java -version (Ckecking the Java Version)
+{ There are two methods of Jenkins installation below which are not recommand.
+  > yum install -y wget http://mirrors.jenkins.io/war-stable/latest/jenkins.war
+    Fore note installation which is not recommand [java -jar jenkins.war]
+  > wget https://pkg.jenkins.io/redhat-stable/jenkins-2.150.1-1.1.noarch.rpm
+    This above is rpm Installation not recomanded.
+  > rpm -ivh jenkins-2.150.1-1.noarch.rpm
+  >  rpm -qa Jenkins
+  > rpm -e Jenkins}
+  > export PATH=$PATH:/opt/maven/bin
+
+This is the most preferred process on jenkins Installation: Goto path /opt/ and start the Installation process
+> yum install -y java-1.8.0-openjdk-devel
+> yum install zip unzip wget tree vim -y
+> wget http://apache.mirrors.nublue.co.uk/tomcat/tomcat-8/v8.5.37/bin/apache-tomcat-8.5.37.tar.gz
+> tar zxf apache-tomcat-8.5.37
+> wget http://mirrors.jenkins.io/war-stable/latest/jenkins.war (unzip and place jenkins.war file in /opt/apache-tomcat/webapps directory and go to /opt/apache-tomcat/bin and excute this command
+chmod +x * and from the bin direcoty ./shutdown.sh and ./start.sh)
+> now you can see the Jenkins Installation process.
+
+##Groovy code##
+
+def mvnHome = tool name: 'Maven3', type: 'maven'
+def mvnCli = "${mvnHome}/bin/mvn"
+
+properties([buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '30', numToKeepStr: '')),
+disableConcurrentBuilds(),
+disableResume(),
+durabilityHint('PERFORMANCE_OPTIMIZED'),
+parameters([string(defaultValue: 'DEV', description: 'This information needs to be provided at the start of Jenkins JOB Execution', name: 'Environment', trim: false)]),
+pipelineTriggers([pollSCM('30 * * * *')])])
+
+stage('Checkout Code') {
+    git credentialsId: 'chgoutam@gmail.com', url: 'https://github.com/gouthamchilakala/PetClinic.git'
+}
+
+stage('Print the String'){
+    echo "The environment chosen during the Job execution is ${environment}"
+}
+
+stage('Compile my code'){
+    sh "${mvnCli} clean compile"
+}
+
+stage('Test my code'){
+    sh "${mvnCli} test"
+}
+
+stage('Package my code'){
+    sh "${mvnC
+    stage('Deploy the Code'){
+    sh 'curl -u tomcat:tomcat -T **/*.war "http://ec2-3-83-88-183.compute-1.amazonaws.com:8080/manager/text/deploy?path=/&update=true"'
+}
+
+stage('Smoke Text'){
+    sleep 5
+    sh "curl http://ec2-3-83-88-183.compute-1.amazonaws.com:8080/"
+}
+
+stage('Archive the WAR file'){
+    archiveArtifacts artifacts: '**/*war', onlyIfSuccessful: true
+}
+
+stage('Archive JUnit Results'){
+    junit '**/surefire-reports/*.xml'
+}
+}

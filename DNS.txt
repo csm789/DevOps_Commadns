@@ -1,0 +1,7 @@
+
+	Domain Name Service:
+		> Every Server on the internet has IP Address.
+		> It runs on TCP IP
+		> DNS translates Host Name to IP Address and Domain Name to IP address.
+		> 
+		

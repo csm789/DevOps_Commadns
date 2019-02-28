@@ -1,0 +1,146 @@
+.
+0.
+.
+
+
+	Docker: Installation of Docker EE 																[Rocket is Similar to Dockers]
+	> sudo yum-config-manager --enable rhel-7-server-extras-rpms (First Add Repository)
+	> https://storebits.docker.com/ee/rhel/sub-850b2e55-7fe7-4857-bb7c-ac2cb33d20bf (31-01-2019 Started Docker RHEL EE Subcribtion)
+	> https://storebits.docker.com/ee/centos/sub-e992dc32-4765-403c-8eb4-e937a7e834ba (31-01-2019 Started Docker CentOs EE Subcribtion)
+	> yum install docker EE
+	> docker version
+	> docker image pull imagename:latest
+	> docker image inspect imagename
+	> docker container run --name welcome-1 hello-world:latest (To run the container)
+	> cd /var/lib/docker /docker image save httpd:latest(original imagename) -o httpd.tar(name as you like)/ (This couple of commands is to navigate to the Docker Image and Save Docker Image as .tar and 
+	  move as you like)
+	> docker image load -i imagename (httpd.tar)
+	> docker container run -d -p 8800:80 --name nametheimage originalimagename
+	> docker container stop container
+	> docker container stop containername/ID (Will stop Gracefully)
+	> docker container kill containername/id (Will stop forcefully)
+	> docker container pause containername/id
+	> docker container unpause containername/id
+	> docker container logs containername/id (will show the logs)
+	> docker container top containername/id  (Will show the 4 container id as default)
+	> docker container stats containername/id (will show the status od the container)
+	> docker container exce containername/id (Can login to the Container inside)
+	>  docker exec -it Sathya-HelloWorld /bin/bash (Can login and see, but not a best practice)
+	> docker container run -it --name Sathya-Ubuntu ubuntu:latest (This is the way we login to the Linux)
+	> docker (hold key p and q) Key will exit the container ubuntu-server without stoping
+	> docker container start osname (after doping this command this will exit as soon as the command exicutes)
+	> docker container attach osname (will login the os)
+	> docker image tag imagename:latest csm789/imagename:1.0.0
+	> docker image push csm/imagename:1.0.0
+    > docker image build -t hello-world:1.0.0 .
+Dockerfile:
+FROM
+MAINTAINER Sathya Chilumula
+RUN yum install -y wget vim tree zip unzip 
+COPY 
+WORKDIR /opt/apache [change Directory inside the image (like cd)]
+ENV
+VOLUME
+EXPOSE 8800
+CMD !/bin/bash [will exicute the commadn inside the image]
+USER root [To switch from one user to other user]
+
+Docker-Swarm Installation:
+	> docker info [Check the swarm status]
+	> docker swarm init --advertise-addr ipaddress
+	> docker swarm join --token SWMTKN-1-29epbuanbous6fwq0w9ufczdcwpwwa8cvmieq71nr39ua6i9y7-cfn42y4402hz8lgfs2v7goh81 192.168.8.99:2377 (Copy the docker form the Docker Master and Paste on all Docker 
+	  Workers)
+    > docker swarm join-token worker (This command will print the tocken again)
+    > docker swarm leave (will leave the cluster ) --force (will leave forcefully)
+    > docker node ls
+    > docker node promote nodeid
+    > docker node demoted nodeid
+    > docker stack deploy -c docker-compose.yml clusterapp
+    > docker stack ls (will show list of stack)
+    > docker stack ps clusterapp (clustername)
+    > docker stack rm containername
+    > docker stack services imagename
+    > docker stack deploy -c docker-compose.yml imagename
+
+
+Restart Policies:
+1. none
+2. on-failure
+3. any
+
+
+
+
+
+Adventages of Docker:
+	> Network failure will be less
+	> 
+
+Disadventages of Docker:
+    > 
+
+Docker:
+		Docker for Ubuntu Systems:
+			sudo apt-get update
+			sudo apt-get install apt-transport-https ca-certificates curl software-properties-common
+			curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add –
+			sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable“
+			sudo apt-get update
+			sudo apt-get install docker-ce
+
+	Docker for Centos:
+			sudo yum install -y yum-utils device-mapper-persistent-data lvm2
+            sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+			sudo yum update
+			sudo yum install docker-ce
+			sudo service docker start
+	Command:
+	sudo groupadd docker
+	sudo usermod -aG docker $USER
+	docker run -d -p 5000:5000 --name registry registry:2
+	docker image tag ubuntu localhost:5000/myfristimage
+	docker rmi imagename
+	docker rmi imagename -f 
+	docker pull imagename
+	docker container stop imagename && docker container rm -v registery 
+		{https://github.com/devopsguru91/catnip}
+	docker run -p 80:5000 devopsguru91/catnip
+	docker stats containername
+	docker login
+	docker push imagename
+	docker run -dp 443:5000 developguru:catnip
+	docker search elasticsearch
+	docker run -dp 9200:9200 elasticsearch
+	docker run -dp 9200:9200 elasticsearch:5.6.10
+	curl 0.0.0.0:9200
+	docker build -t csm789/foodtrucks-web . (to build)
+	docker run -P csm789/foodtrucks-web (to start the container)
+	docker run -dP csm789/foodtruck-web (forcefull)
+	docker exec -it containername /bin/bash
+	docker run -it csm798/foodtrucks-web /bin/bash 
+	docker network ls
+	docker network inspect container name
+	docker run -d --net foodturck -p 80:5000 --name foodtrucks-web csm789/fppdtrucks-web 
+	sudo apt install 
+	sudo pip install docker compose
+
+	Hi All,
+	Create a Dockerfile to create docker image with lamp stack 
+	Create a docker network and add a nginx container and tomcat container and proxy tomcat from nginx
+	Create a docker compose for the same
+	=================================================================================================
+
+	# Docker U#
+
+	docker ps
+	docker ps --all
+	docker start hello-world
+	[docker run busybox echo hi there
+	docker start -a busybox/id (you can see the out put as hi there)]
+	docker system prune [Delete all the container]
+	docer exec -it docker id sh (to exit control D or contorl c)
+	
+
+	
+	
+	

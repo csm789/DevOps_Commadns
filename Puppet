@@ -1,0 +1,45 @@
+
+	Puppet: (Sensible way to manage infrastructure as a Code) CookBooks. Puppet luanched in 2005.
+	> Puppet is agent based (here we need to install agent in every server), Puppet is Client Side Architecture
+	> Puppet is a pull based Configurational Management system and Puppet is Idempoted too used for deploying, configuring and Managing services.
+	> Puppet itself needs huge amount of engineering effort to maintain. (Drawback) and Huge amount of CPU and RAM.
+	> Puppet had nearly 60 Modules where as Ansible had 2000 modules.
+	> Puppet is two things: A language for expressing the desired start (how your node shoudld be configured) and an engine that interprets code written with
+	  the puppet Language and applies to the node to bring about the desire state.
+	> Puppet language its not exactly a series of instructions like a Shell script and a Ruby Program.
+	> To write a programe to Puppet Need Ruby code Expert.
+	> Puppet Components 1. Puppet Master 2. Puppet Client 3. Puppet Language 4. Puppet Facter.
+	> Puppet Masteris a server component in the Client server model based on open source java Virtual machine application and Provides high performance puppet 
+	  master service, Provides an API for Adminnistraiton.
+	> Puppet has UI and reporting to each client, this is a adventage.
+	> Puppet LifeCycle: Node will collect the Facts and sent to the Puppet Master, than Pupet Master will create Catalog (Catalog is a smiple file) nd Report 
+	  back to the Puppet Master.
+	 > Puppet Lifecycle is call Puppet RUN.
+	 > Puppet DB is an Opensource database, Chaches and store the data genarated during Puppet RUN, can be quaired via API.
+	 > Puppet Agent can be server, Cloud, VM, Network.
+	 > Fact is a tool which will install during Puppet Agent, which will collect the facts and provided to the Master from Node.
+	 > Puppet Language: catalog will discribe the desired state of each managed resources on each slave, Role is a Module, Manifest as YML, Resources.
+	 > Puppet can be installed in two way 1. Monolathic Installation and 2. Split Installation.
+Puppet Monolathic Installation:
+	> Before Installing Hostname should be the Public not Private
+	> hostnamectl set-hostname Publicipaddress (command to set the public host name, Naver change Hostname in your Project)
+	> Minimum you need to have 2 core Processor and 6GB RAM. (RHEL, CentOS)
+	> https://pm.puppet.com/cgi-bin/download.cgi?dist=el&rel=7&arch=x86_64&ver=latest (Download Link of Puppet Master EE)
+	> https://pm.puppet.com/puppet-agent/2019.0.1/6.0.4/repos/el/7/puppet6/x86_64/puppet-agent-6.0.4-1.el7.x86_64.rpm (Download Link of Puppet Agant EE)
+	> wget "https://pm.puppet.com/cgi-bin/download.cgi?dist=el&rel=7&arch=x86_64&ver=latest" -O puppet.tar.gz
+	> tar zxf puppet.tar.gz
+	> cd puppet directory
+	> ./puppet-enterprise-installer
+	> Copy the Link from the command link and paste in URL and Continue installation, by giving Password
+	> In real time we need to go to Settings, Control access and should give the LDAP Credentials so that we can manage the Credentials.
+	> Puppet will communicate on 8140 port.
+	> To setup a Puppet Agent Just to go unsirned Cet and copy the curl and post on Agaent Server, so that the agent Server will be up and running.
+	> curl -k https://ec2-13-56-163-242.us-west-1.compute.amazonaws.com:8140/packages/current/install.bash | sudo bash (this curl will install the Puppet agent)
+	> puppet agent -t (need to run this command after the curl command)
+	> puppet expect us to write in a specific location cd /etc/puppetlabs/code/environment/production
+	> We classify in site.pp file for which code which server will be apply
+	> To Write Puppet we need to install a tool called  Puppet Developement Kit download the Kit 
+	   wget "https://pm.puppet.com/cgi-bin/pdk_download.cgi?dist=el&rel=7&arch=x86_64&ver=latest" -O pdk.tar.gz 
+	> mv pdk.tar.gz pdk.rpm
+    > rmp -ivh pdk.rpm (this will install)
+    > I am not getting pdk Developemnt  kit afterinstallation why?

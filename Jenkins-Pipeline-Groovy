@@ -1,0 +1,54 @@
+node {
+	
+    def mvnHome = tool name: 'Maven3', type: 'maven'
+	def mvnCli = "${mvnHome}/bin/mvn"
+
+     properties([buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '30', numToKeepStr: '')),
+     disableConcurrentBuilds(),
+     disableResume(),
+     durabilityHint('PERFORMANCE_OPTIMIZED'),
+     parameters([string(defaultValue: 'BUILD-SERVERS',
+     description: 'PetClinic Full Jenkins CI/CD process.',
+     name: 'Environment', trim: false),
+     choice(choices: ['TEST SERVER', 'UAT SERVER', 'QA SERVER', 'DEV SERVER', 'PRODUCTION SERVER'], description: '', name: 'SERVER-NAME')]), pipelineTriggers([pollSCM('30 * * * *')])])
+
+     stage('Checkout') {
+     git credentialsId: 'sp.satyadeveloper@gmail.com', url: 'https://github.com/SathyaChilumula/PetClinic.git'
+     }
+
+     stage('Print the String') {
+     echo "The environment chosen during the Job execution is ${Environment}"
+     }
+
+     stage('Compile my code') {
+     sh "${mvnCli} clean compile"
+     }
+ 
+     stage('Test my code') {
+     sh "${mvnCli} test"
+     }
+
+     stage('Package my code') {
+     sh "${mvnCli} clean package"
+     }
+
+     stage('deploy the code'){
+     sh 'curl -u tomcat:tomcat -T **/*.war "http://192.168.8.10:8080/manager/text/deploy?path=/&update=true"'
+     }
+     
+     stage('Smoke Test') {
+     sleep 5
+     sh "curl http://192.168.8.10:8080/"
+     }
+
+     stage ('Archive the WAR file') {
+     archiveArtifacts artifacts: '**/*war', onlyIfSuccessful: true
+     }
+
+     stage ('Archive the Results') {
+  	junit '**/surefire-reports/*.xml'
+    }
+}
+
+##Dmaven.skip.test=true (This will skip the test cases in the jenkins pipeline)##
+## agent {node (label 'Master') } (this will run the master node).

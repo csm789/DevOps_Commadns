@@ -1,0 +1,176 @@
+Ansible:
+(Dependancy of ansible is python 2.7)
+1. Ansible: Ansible is a Automation Management tool used to automate your entire Project Environment.
+2. Ansible work as push based, Ansible is also called Automation Engine through API, Modules, Inventory and Plugins,  it doesn't need Client Server like Chef 
+   and Puppet called and it is as Idampotent.
+3. Ansible workes with 4 main catogery 1. Provisioning 2. Orchestration 3. Configuraitonal Management 4. Application Deployments.( Web, App, DB Servers).
+4. Ansible will remotely login to the client server and perform the automation tasks.
+5. Ansible works as password less authentication through ssh. (vim /etc/ssh/sshd_config Which we need to uncomment file and restart systemctl sshd) 
+   1.PermitRootLogin yes 2. PubkeyAuthentication yes 3. PasswordAuthentication yes 4. port 22 uncomment listen address 0.0.0.0.
+6. Adventages of Ansible, 1. Size of the Ansible file is 10 MB in size, Idempotent, Simple to understand the playbook need not need any code writing expertise 
+   to understand, Automation will me done fast remotly. 
+7. Most adventable of ansible, it can automate the Networking, Ansible can understand every kind of Load-Balancer, Switch, Router, physical device wth 
+   extensive support.
+8. Create the file with  abc.txt in opt, permission as 766 (User-Read, Write and Execut) (Group-Read and write) (Others-read and write), owner as root and 
+   group as root and text file content.
+9. Ansible works in the form of Imperative (We are goint to define how to achive the solutions). And Ansible will works as Declarative form( we will define 
+   what to achive not how to achive)
+10. Inventory file we create to communicate with web-servers and db-Servers [WEB] webserver.com [DB]dbserver.com
+11. Modules: apt: to install
+			 templat: Config Changes
+			 Service: restart 
+12. CMDB configuration management databases
+
+Ansible Installation:
+1. releases.ansible.com (Constains 2 types 1. Ansible 2. Keys) Ansible RPM and tar, Click on RPM whihc has 1. nightly 2. preview 3. release (Click on release, 
+   epal and download noarch.rpm) curl -O https://releases.ansible.com/ansible/rpm/release/epel-7-x86_64/ansible-2.7.4-1.el7.ans.noarch.rpm
+2. sudo yum-config-manager --enable rhui-REGION-rhel-server-extras (Adding Repository:For AWS (where REGION is a literal, and does not represent the region 
+   your machine is running in).
+3. yum install -y ansible-2.7.4-1.el7.ans.noarch.rpm
+4. ansible --version (After installation you will se below commands)
+  {config file = /etc/ansible/ansible.cfg
+  configured module search path = [u'/root/.ansible/plugins/modules', u'/usr/share/ansible/plugins/modules']
+  ansible python module location = /usr/lib/python2.7/site-packages/ansible
+  executable location = /bin/ansible
+  python version = 2.7.5 (default, Sep 12 2018, 05:31:16) [GCC 4.8.5 20150623 (Red Hat 4.8.5-36)]
+  => There are some configurational Settings of ansible Path vim /etc/ansible/ansible.cfg
+  - Inventory = /opt/inventory.txt (In inventory file where we list of all services will read and perform the tasks on the remote server)
+  - forks = 5, connect to the remote server parally to 5, if it is 10 Ansible will perform in 2 iterations.
+  - host_key_checking = flase (uncomment to avoide the dialogue box when you login to remote server ssh)
+  - log_path = /opt/log/ansible.log (uncomment)
+  - TIMEOUT = 15 (during ssh)
+  - Sudo_exe= sudo
+   AND SAVE ANSIBLE CONFIG FILE.
+ 5.	Important point regarding to the inventory file, here we initial the servers with different environment like TEST, QA, PROD, UAT, DEV.
+ 6. Need to setup password less authontication on nodes. 
+ 		a) Genarate ssh key on master. 
+ 		b) Than on Node/Nodes go to vim /etc/ssh/sshd_config 1.PermitRootLogin yes 2. PubkeyAuthentication yes 3. PasswordAuthentication yes
+ 		c) passwd (setup a password and confirm)
+ 		d) systemctl restart sshd.
+ 7. ssh-copy-id root@ec2-3-84-72-241.compute-1.amazonaws.com
+ 8. Ansible playbook has 2 sections one is Header section and second is task section.
+ 9. Now create a directory called playbooks in /opt/ ans start creating playbooks.
+Commands:
+1. 9 (ping is one of the module of ansible)
+2. ansible-playbook filename --syntax-check
+3. ansible webserver -m ping
+4. connection reset by ipaddress port 22
+5. ansible all -m setup > filename.txt (ansible will save all the information in the filename.txt) 
+
+Playbook.yml
+
+
+---Modules
+#Header Section
+
+#playbook testing modules
+ - name: This is my first playbook
+   hosts: webserver
+   vars:
+     location: /opt
+   become_user: ec2-user
+
+#Task Section
+
+   tasks:
+
+    - name: to create a file name HelloWorld.html
+      file:
+        path: /home/ec2-user/HelloWorld.html
+        owner: ec2-user
+        group: ec2-user
+        mode: 0644
+        state: absent
+
+    - name: TO create a Directory in the App Server
+      file:
+        path: /home/ec2-user/Developer
+        owner: ec2-user
+        group: ec2-user
+        mode: 0644
+        state: directory
+
+--- Install wget package
+#Header Section
+
+# Installation of packeges
+ - name: Install wget package on App server
+   hosts: webserver
+   vars:
+     package: wget
+
+#Task Section
+
+   tasks:
+
+    - name: Install common software requirements
+      yum:
+        name: "{{ package}}"
+        state: installed
+
+---Array
+#Header Section
+
+# Using playbook Array
+ - name: This will create files in the remote servers
+   hosts: webserver
+   vars:
+     myfiles: ['file1.txt', 'file2.txt', 'file3.txt']
+
+#Task Section
+
+   tasks:
+
+    - name: To create 3 files in the App server
+      file:
+        path: /opt/{{ item }}
+        state: touch
+        owner: root
+        group: root
+        mode: 0755
+      with_items:
+        - "{{ myfiles }}"
+
+--- Declarative and install the packages as Var1.yml
+#Header Section
+package: wget
+
+---For Loop
+#Header Section
+package: wget
+[root@ip-172-31-81-175 playbooks]# cat var3.yml
+---
+#Header Section
+
+#playbook testing modules
+ - name: Looding variables for a external files
+   hosts: webserver
+   vars_files:
+     - var1.yml
+
+#Task Section
+
+   tasks:
+
+    - name: To install a package names {{ package}}
+      yum:
+        name: "{{ package}}"
+        state: installed
+---
+# Header Section
+ - name: This is a playbook which runs the commands
+   hosts: webserver
+
+#Task Section
+
+   tasks:
+
+    - name: To install the package names {{package}}
+      command: mkdir -p /opt/ansible/server
+      args:
+        creates: /opt/ansible/server
+
+
+
+
+  

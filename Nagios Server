@@ -1,0 +1,4 @@
+
+	NagiOS Server:
+	> curl https://assets.nagios.com/downloads/nagiosxi/install.sh | sh
+	> 

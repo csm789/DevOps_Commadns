@@ -1,0 +1,33 @@
+---
+#this is my frist playbook
+
+#Header Section (step1)
+
+  - name: This is a play to create a file in remote servers
+    hosts: webservers
+    var:
+      location: /opt
+    become_user: ec2-user
+#Task Section
+  
+    tasks:
+
+      - name: To create a file named helloworld.html
+        file:
+          path: /home/ec2-user/helloworld.html
+          owner: ec2-user
+          group: ec2-user
+          mode: 0644
+          state: touch #(step2 state: absent)
+
+          # Ansible Commands #
+          # ansible-playbook  helloworld.yml --syntax-check (This command will check the induntetion and any errors in the program)
+          # ansible-playbook helloworld.yml (This command will executive the programme)
+      - name: To create a directory named devops
+        file:
+          path: /home/ec2-user/devops
+          owner: ec2-user
+          group: ec2-user
+          mode: 0644
+          state: directory
+          

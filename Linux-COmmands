@@ -1,0 +1,18 @@
+Linux Commands:
+		> vimdiff file1 file2
+		> date
+		> cat /etc/passwd | grep sathya | cut -d : -f3 ( This will print the Sathya after : representing : f1 f2 f3 ..)	
+		> DIRNAME=$(echo $URL | cut -d / -f5) DIRNAME is the directoryname $URL is a tooplate url template.
+		> alternatives --config java
+		> df -h (to check the memoery hard-drive)
+		> ip addr show
+		> hostname -I
+		> ip a
+		>/dev/null (Will gide installaion at the back end)
+		>  ps -ef | grep apache2 (To see the port process)
+		> netstat -antp
+		> netstat -antp | grep apache
+		> ss -tunip (HOw to see the open ports)
+		> rpm -ivh name.rpm (used for rmp file)
+		> sudo chown -R ubuntu:ubuntu foldername (Will give the ownership previlage)
+		> clip < ~/.ssh/id_rsa.pub (Coping the ssh key)

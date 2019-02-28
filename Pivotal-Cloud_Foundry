@@ -1,0 +1,55 @@
+
+ # Pivotal Cloud Foundry#
+ 
+ Installation:
+ > This is on RHEL or Centos7
+ 	 sudo wget -O /etc/yum.repos.d/cloudfoundry-cli.repo https://packages.cloudfoundry.org/fedora/cloudfoundry-cli.repo
+ 	 sudo yum install cf-cli
+ > This is on Ubuntu
+ 	wget -q -O - https://packages.cloudfoundry.org/debian/cli.cloudfoundry.org.key | sudo apt-key add -
+ 	echo "deb https://packages.cloudfoundry.org/debian stable main" | sudo tee /etc/apt/sources.list.d/cloudfoundry-cli.list
+ 	sudo apt-get update
+ 	 sudo apt-get install cf-cli
+
+ Commands:
+ 	> cygcheck.exe -s 							(This command will check all the config and Cygwin Configuration Diagnostics)
+ 	> cf login -a https://api.run.pivotal.io 	( to login in to the Pivotal Cloud Foundry provide your email and password)
+ 	> cf logs cf-spring --recent 				(You can see the logs)
+ 	> cf logs cf-spring 						(Live Logs time stamp, Logs and chennal)	
+ 	> cf marketplace -s elephantsql 			(List the available ElephantSQL plans)
+ 	> cf create-service elephantsql turtle cf-spring-db (Create a service instance with the free plan)
+ 	> cf bind-service cf-spring cf-spring-db 	(Bind the newly created service to the app)
+ 	> cf restage cf-spring 						(Restage the app)
+ 	> cf services 								(Very the Service inbond with the app)
+
+ 	> cf scale cf-spring -i 2					(Increase the number of app instances from one to two)
+ 	> cf app cf-spring-db 						(Check the status of the app and verify there are two instances running)
+ Scaling your app vertically changes the disk space limit or memory limit for each app instance.Increase the memory limit for each app instance:
+ 	> cf scale cf-spring -m 1G
+ 	> cf scale cf-spring -k 512M 				(Decrease the disk limit for each app instance)
+
+ #Installation .sh#
+  	sudo -i
+  	cd /opt/ 
+    yum install -y vim tree zip unzip git wget
+    sudo wget -O /etc/yum.repos.d/cloudfoundry-cli.repo https://packages.cloudfoundry.org/fedora/cloudfoundry-cli.repo
+    sudo yum install cf-cli
+   cf --version
+   
+   Commands~
+   git clone https://github.com/cloudfoundry-samples/cf-sample-app-spring.git
+   mv cf-sample-app-spring/ cf-app-spring
+   cd cf-app-spring/
+   login -a https://api.run.pivotal.io
+   cf push
+   cf logs cf-spring --recent
+   cf logs cf-spring
+   cf marketplace -s elephantsql
+   cf create-service elephantsql turtle cf-spring-db
+   cf bind-service cf-spring cf-spring-db
+   cf restage cf-spring
+   cf services
+   cf scale cf-spring -i 2
+   cf scale cf-spring -m 1G
+   cf scale cf-spring -k 512M
+

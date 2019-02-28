@@ -1,0 +1,58 @@
+
+	gitHub:
+		> git init
+		> git config --global user.email "emailID"
+		> git config --global user.name "name"
+		> git add . (this will add all the file in the directory to next staging)
+		> git add filename
+		> git commit -m "give the comment to the file"
+		> git push origin master
+		> git clone link (this will clone the master branch)
+		> git clone link -b branchname (this command will clone the branch)
+		> git pull origin master
+		> git pull origin master && git push origin master
+		> git checkout -b hotfix (This command will ccreate the branch with hotfix)
+		 {git merge branchname
+			git push origin master} (After megre command you need to push the origin)
+		> short cut {git add . && git commit -m "commit" && git push origin master}
+		> git branch -d branchname ( will delete the branch in the local)
+		> git push --delete origin branchname
+			{git branch -D branchname  ( delete the branch before merge )
+			git push --delete origin branchname ( Delete remote branch)
+			git pull origin master}
+		> git tag -a V1.0 -m "First Release"
+		>	git reset HEAD Filename
+		> git log
+		> git log --oneline
+		> git diff HEAD~1
+		> git log filename1 filename2
+		> git romote -V
+		> git remote add ReferenceName URL Link
+		> git branch -a
+		> git checkout branchname
+
+
+	Explanation:
+		 > For collaboration with other developer, you need to go to the repo settings and you can add collaboration with username, which will send the invitaiton to email ID.
+		 >
+> Git commands as colour [vim ~/.gitconfig]
+[alias]
+  lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
+  st = status
+[color]
+  branch = auto
+  diff = auto
+  status = auto
+[color "branch"]
+  current = yellow reverse
+  local = yellow
+  remote = green
+[color "diff"]
+  meta = yellow bold
+  frag = magenta bold
+  old = red bold
+  new = green bold
+[color "status"]
+  added = yellow
+  changed = green
+  untracked = cyan

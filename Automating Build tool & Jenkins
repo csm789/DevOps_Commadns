@@ -1,0 +1,231 @@
+
+	Automating Build tool & Jenkins ( Tutor Goutham @ 15/12/2018)	
+		Agenda: Maven.
+				Maven Life Cycle
+					> Compile			=> Compile step will take java code avalible in your main directory and compile it to class files all of them in single instance.
+					> tesr-compile		=> 
+					> test
+					> package
+					> integration-test
+					> Verify
+					> Install
+					> Deploy
+		
+		Important Points: 
+	
+		Commands:
+			> sudo yum install -y java-1.8.0-openjdk-devel
+	
+Compiled Languages
+Java, .NET
+
+2 step process:
+
+Compile
+Execute
+
+javac <program>
+java <main class name>
+
+Interpreted Languages:
+C, Python, Perl, Shell, C++
+
+public class name.
+
+offers:
+40-50 MB
+
+100's of small java files which easy maintain.
+
+source code:
+
+Build Tool:
+
+Build & Release team:
+
+src
+main: ( app code )
+config
+filters
+java: all the code which is related to ur transactions
+resources: txt, config
+webapp: JSP, Servlets, HTML,CSS ( Static Page )
+test: ( unit test cases )
+
+was the BUILD successful?
+
+INPUT: source code
+OUTPUT: artifact
+each stage in default life cycle is called a Phase.
+
+G
+5:26 PM
+Goutham Kumar ( Trainer )
+to Everyone
+compile:
+it take the java code avilable in ur main directory and compiles it to .class files all of them in a single instance.
+test-compile:
+it takes all java code available in test directory and compiles it to .class file.
+test:
+it will take all the .class files of test dir and execute them and provide the results to us.
+IF this step fails, maven execution stops.
+Package:
+It will take all the .class available in ur main dir and package them into a single deployable file:
+offers.EAR/WAR/JAR
+
+JAR: bundle ur simple EJB, Hibernate code
+WAR: Web Archive:
+if you write a code related to static or semi dynamic pages
+JSP, Servlets
+EAR: Enterprise Archive
+manage mutliple WAR's & JAR's
+
+JUnit Test case:
+offers code:
+4 people:
+Unit Test case to check each time whether my main business logic code is still intact or not.
+
+will be written in native language:
+developers will write it.
+
+Maven is written in Java, so maven needs java to run itself
+
+Java:
+When we write/compile java code, we need the JDK istalled on the se
+
+G
+5:26 PM
+Goutham Kumar ( Trainer )
+to Everyone
+<groupId>flipkart.com</groupId>
+<artifactId>offers</artifactId>
+<version>0.1.0</version>
+<name>offers</name>
+
+80-90% file contains the dependency information.
+
+<dependency>
+  <groupId>junit</groupId>
+  <artifactId>junit</artifactId>
+  <version>4.11</version>
+  <scope>test</scope>
+</dependency>
+For each maven phase, there are plugins which execute and accomplish the maven activity.
+compile:
+maven-resources-plugin
+maven-compiler-plugin
+
+source code should not be distrupted
+
+maven by default creates a target directory
+and places the files inside this.
+
+compile;
+
+target
+classes
+<org name>
+<place the files here> .class files
+
+surefire-reports - dir created and stores the test cases in it in .xml format
+
+package:
+maven-jar-plugin:3.0.2:jar
+maven-war-plugin:3.0.2:war
+maven-ear-plugin:3.0.2:ear
+
+Microsoft IIS
+
+docker:
+docker install
+docker configure
+docker container images
+custom image
+deploy docker swarm
+
+Installaion:
+https://github.com/gouthamchilakala/PetClinic
+
+Version Control System:
+
+Static Code Analysis:
+SonarQube
+
+Security Code Analysis:
+Fortify Tool
+
+Build Tool:
+
+Deployment Tools:
+IBM Urban Deploy
+XL Deploy
+
+Automated Testing Tools:
+
+OpenJDK
+Oracle JDK
+
+they will stop supporting Java:
+
+Oracle Java
+
+Jenkins X
+Is a new Jenkins which is puprose build for the Docker and Kubernetes.
+Build, Test, Deploy Container based applications.
+
+goutham
+
+/home/<user name>/.jenkins
+
+root
+/root/.jenkins
+
+When we integrate a tool into Jenkins,
+
+G
+5:42 PM
+Goutham Kumar ( Trainer )
+to Everyone
+Authentication: whether u cn login or not
+Authorization: how much level of access u have.
+
+Java
+Git
+Maven
+
+.hpi
+
+uncomment 2 things:
+#PermitRootLogin
+#PasswordAuthentication
+
+each timw u run ur jenkins job, it will create a build number
+starting with #1 increment wit 1 number each.
+
+#1 - build info will be inside that specific build
+#2 - 30 days age
+
+Logic
+No. of Days
+Np. of Jobs
+
+12:30
+throttling as 1 hour and 3 build
+12:50
+
+build tool integration.
+standalone program
+
+jenkins config location
+workspace:
+where the jenkins is going to find ur code files to do any activity on it.
+
+.jenkins/workspace/Sample-Java/
+
+trigger.sh
+#!/bin/bash
+
+curl http://ec2-34-230-39-180.compute-1.amazonaws.com:8080/jenkins/job/PetClinic_Freestyle/build?token=123456
+
+Nightly Builds:
+trigger the job <night>
