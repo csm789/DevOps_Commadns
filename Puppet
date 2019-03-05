@@ -46,7 +46,7 @@ Puppet Monolathic Installation:
     
 Self-Paste:
 	> Puppet
-	> Life-cycle				Futures
+	> Life-cycle				Features
 		- code 					Automation
 		- Build 				Consistancy
 		- Test 					Software Updates
@@ -55,4 +55,62 @@ Self-Paste:
 		- Monitor
 		- Operate
 		- Deploy
-	> 
+Step 1: Installation Puppet on Ubuntu
+	
+	[ The code in the Square Bracket you can shave in .sh and run
+	sudo apt-get update
+	echo "####################### update Successfully Done ################"
+	echo "####################### wget Successfully installed ################"
+	wget https://apt.puppetlabs.com/puppet-release-bionic.deb
+	echo "####################### puppet Successfully downloaded in opt directory ################"
+	sudo dpkg -i puppet-release-bionic.deb
+	echo "####################### dpkg Successfully Done ################"
+	sudo apt-get update
+	echo "####################### update Successfully Done ################"
+	sudo apt-get install -y puppetmaster
+	echo "####################### Puppet Master Successfully Installed ################"
+	apt policy puppetmaster
+	echo "####################### Puppet Master Policy Successfully Done ################"
+	]
+
+Step-3	> sudo systemctl status puppetmaster.service
+		> vim /etc/default/puppetmaster (There are some changes need to be done paste this following command: JAVA_ARGS="-Xms512m Xmx512m")
+		> systemctl status puppetmaster.service
+		> sudo ufw allow 8140/tcp (Communicates)
+		> vim /etc/hosts (Here you need to paste the IP address of Puppet Matser and save the file should follow the same on agent)
+		> sudo puppet cert list
+step 5		> sudo puppet cert sign --all (will certify all the puppet agents)
+			> {Set a path as [mkdir /etc/puppet/code/environment/production/manifests]
+			vim /etc/puppet/code/environment/production/manifests/site.pp (and paste this code)
+			
+			file {'/tmp/it_works.txt':                                      # resources type file and files
+   			ensure   => present,                                         # make sure it exits
+   			mode     => '0644',                                          # file permissions
+   			content  => "It works on ${ipaddress_eth0}!\n",              # print the eth0 IP fact
+			}
+		}
+		> systemctl restart puppetmaster.service
+		> 
+
+Installation of Puppet agent:
+	Step -2[ The code in the Square Bracket you can shave in .sh and run
+	sudo apt-get update
+ 	echo "####################### update Successfully Done ################"
+	sudo apt-get install -y wget
+	echo "####################### wget Successfully installed ################"
+	wget https://apt.puppetlabs.com/puppet-release-bionic.deb
+	echo "####################### puppet Successfully downloaded in opt directory ################"
+	sudo dpkg -i puppet-release-bionic.deb
+	echo "####################### dpkg Successfully Done ################"
+	sudo apt-get update
+	echo "####################### update Successfully Done ################"
+	sudo apt-get install -y puppet
+	echo "####################### Puppet Agent is Successfully Installed ################"
+	sudo systemctl start puppet
+	sudo systemctl enable puppet
+	echo "####################### Puppet Agent is Enabled################"
+	]
+Step 4	> vim /etc/hosts (Here you need to paste the IP address of Puppet Matser and save the file)
+		> systemctl start puppet
+		> systemctl enable puppet
+		> sudo puppet agant --test
