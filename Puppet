@@ -39,7 +39,20 @@ Puppet Monolathic Installation:
 	> puppet expect us to write in a specific location cd /etc/puppetlabs/code/environment/production
 	> We classify in site.pp file for which code which server will be apply
 	> To Write Puppet we need to install a tool called  Puppet Developement Kit download the Kit 
-	   wget "https://pm.puppet.com/cgi-bin/pdk_download.cgi?dist=el&rel=7&arch=x86_64&ver=latest" -O pdk.tar.gz 
+	   wget "https://pm.puppet.com/cgi-bin/pdk_download.cgi?dist=el&rel=7&arch=x86_64&ver=latest" -O pdk.rpm
 	> mv pdk.tar.gz pdk.rpm
     > rmp -ivh pdk.rpm (this will install)
     > I am not getting pdk Developemnt  kit afterinstallation why?
+    
+Self-Paste:
+	> Puppet
+	> Life-cycle
+		- Code
+		- Build
+		- Test
+		- Release
+		- Plan
+		- Monitor
+		- Operate
+		- Deploy
+	> 
