@@ -46,11 +46,11 @@ Puppet Monolathic Installation:
     
 Self-Paste:
 	> Puppet
-	> Life-cycle
-		- Code
-		- Build
-		- Test
-		- Release
+	> Life-cycle				Futures
+		- code 					Automation
+		- Build 				Consistancy
+		- Test 					Software Updates
+		- Release 				Software Rollback
 		- Plan
 		- Monitor
 		- Operate
