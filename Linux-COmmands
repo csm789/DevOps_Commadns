@@ -8,7 +8,7 @@ Linux Commands:
 		> ip addr show
 		> hostname -I
 		> ip a
-		>/dev/null (Will gide installaion at the back end)
+		> /dev/null (Will gide installaion at the back end)
 		>  ps -ef | grep apache2 (To see the port process)
 		> netstat -antp
 		> netstat -antp | grep apache
@@ -18,3 +18,12 @@ Linux Commands:
 		> clip < ~/.ssh/id_rsa.pub (Coping the ssh key)
 		> sudo apt-get purge apache2 (This command will remove the installation of apache2)
 		> vim /etc/sshd_config (Password less authentification)
+	> sysctl -a (Load all settings)
+	> sysctl -A (Same as above)
+	> sysctl -p (Apply all the settings)
+	> sysctl -a | wc -l (will show you the sys reading keys)
+	> cat /proc/sys/net/ipv4/ip_forward (You can see the port forwarding id 0= not on 1= is on)
+	> echo "0" cat /proc/sys/net/ipv4/ip_forward (You can chnage the ipv4 0 to 1 or 1 to 0 as accordingly)
+	> net.ipv4.ip_forward = 0 (paste the line to the path => vim /etc/sysctl.config, Will set default as ipv4 0 even after restart you can see the output)
+	> net.ipv4.icmp.ignore_all=1 (paste the command in the path => vim /etc/sysctl/.config, ping won't work it will ignore)
+	> 

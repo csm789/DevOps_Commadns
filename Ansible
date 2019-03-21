@@ -1,4 +1,4 @@
-Ansible:
+Ansible: (Intelligent Automation and Connected Intelligence)
 (Dependancy of ansible is python 2.7)
 1. Ansible: Ansible is a Automation Management tool used to automate your entire Project Environment.
 2. Ansible work as push based, Ansible is also called Automation Engine through API, Modules, Inventory and Plugins,  it doesn't need Client Server like Chef 
@@ -171,6 +171,27 @@ package: wget
         creates: /opt/ansible/server
 
 
+Ansible Modules:
 
 
-  
+Ansible Plugin:
+# win_reboot since Ansible 2.1
+# Shell module for linux hosts prior t ansible 2.7
+
+  - win_reboot:
+  - shell: sleep 2 && shutdown -r now
+    async: 60
+    poll: 0
+# Reboot Since Ansible 2.7
+- win_reboot:
+- reboot:
+
+Action Vs Module
+=================
+1. Gathering facts on target system
+2. Get list boot time
+3. looks up the appropriate command and get the full path
+4. looks up the appropriate command flag
+5. runs the reboot commands
+6. Continually checks the last boot time
+7. Runs the post reboot validation command
