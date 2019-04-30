@@ -1,0 +1,21 @@
+
+Vagrant.configure(2) do |config|
+  
+	config.vm.define "PuppetMaster", primary: true do |h|
+    h.vm.box = "ubuntu/xenial64"
+    h.vm.network "private_network", ip: "192.168.8.10"
+	h.vm.hostname = 'PuppetMaster'
+    h.vm.provider :virtualbox do |vb|
+    vb.customize ["modifyvm", :id, "--memory", "1048"]
+    end
+  end
+
+  config.vm.define "PuppetNode1" do |h|
+    h.vm.box = "ubuntu/xenial64"
+    h.vm.network "private_network", ip: "192.168.8.11"
+    h.vm.hostname = 'PuppetNode1'
+	h.vm.provider :virtualbox do |vb|
+    vb.customize ["modifyvm", :id, "--memory", "512"]
+    end
+  end
+  end

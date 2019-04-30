@@ -1,0 +1,39 @@
+
+Vagrant.configure(2) do |config|
+  
+	config.vm.define "DockerMaster", primary: true do |h|
+    h.vm.box = "centos/7"
+    h.vm.network "private_network", ip: "192.168.8.99"
+	h.vm.hostname = 'DockerMaster'
+    h.vm.provider :virtualbox do |vb|
+    vb.customize ["modifyvm", :id, "--memory", "1024"]
+    end
+  end
+
+  config.vm.define "DockerNode1" do |h|
+    h.vm.box = "centos/7"
+    h.vm.network "private_network", ip: "192.168.8.98"
+    h.vm.hostname = 'DockerNode1'
+	h.vm.provider :virtualbox do |vb|
+    vb.customize ["modifyvm", :id, "--memory", "512"]
+    end
+  end
+
+   config.vm.define "DockerNode2" do |h|
+    h.vm.box = "centos/7"
+    h.vm.network "private_network", ip: "192.168.8.97"
+    h.vm.hostname = 'DockerNode2'
+  h.vm.provider :virtualbox do |vb|
+    vb.customize ["modifyvm", :id, "--memory", "512"]
+    end
+  end
+
+   config.vm.define "DockerNode3" do |h|
+    h.vm.box = "ubuntu/xenial64"
+    h.vm.network "private_network", ip: "192.168.8.96"
+    h.vm.hostname = 'DockerNode3'
+  h.vm.provider :virtualbox do |vb|
+    vb.customize ["modifyvm", :id, "--memory", "512"]
+  end
+end
+end

@@ -1,6 +1,3 @@
-.
-0.
-.
 
 
 	Docker: Installation of Docker EE 																[Rocket is Similar to Dockers]
@@ -60,7 +57,7 @@ Docker-Swarm Installation:
     > docker stack ps clusterapp (clustername)
     > docker stack rm containername
     > docker stack services imagename
-    > docker stack deploy -c docker-compose.yml imagename
+    > docker stack deploy -c docker-compose.yml imagename	
 
 
 Restart Policies:

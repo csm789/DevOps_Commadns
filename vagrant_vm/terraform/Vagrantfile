@@ -1,0 +1,11 @@
+Vagrant.configure(2) do |config|
+  
+ config.vm.define "AWS-terraform", primary: true do |h|
+    h.vm.box = "centos/7"
+    h.vm.network "private_network", ip: "192.168.8.88"
+	h.vm.hostname = 'AWS-terraform'
+    h.vm.provider :virtualbox do |vb|
+    vb.customize ["modifyvm", :id, "--memory", "1048"]
+    end
+  end
+  end

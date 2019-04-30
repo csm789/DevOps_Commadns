@@ -1,0 +1,21 @@
+
+Vagrant.configure(2) do |config|
+  
+	config.vm.define "PCFMaster", primary: true do |h|
+    h.vm.box = "centos/7"
+    h.vm.network "private_network", ip: "192.168.8.89"
+	h.vm.hostname = 'PCFMaster'
+    h.vm.provider :virtualbox do |vb|
+    vb.customize ["modifyvm", :id, "--memory", "2048"]
+    end
+  end
+
+  config.vm.define "PCFNode1" do |h|
+    h.vm.box = "centos/7"
+    h.vm.network "private_network", ip: "192.168.8.89"
+    h.vm.hostname = 'PCFNode1'
+	h.vm.provider :virtualbox do |vb|
+    vb.customize ["modifyvm", :id, "--memory", "1024"]
+    end
+  end
+  end

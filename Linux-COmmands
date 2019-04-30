@@ -14,11 +14,15 @@ Linux Commands:
 		> netstat -antp | grep apache
 		> ss -tunip (HOw to see the open ports)
 		> rpm -ivh name.rpm (used for rmp file)
-		> sudo chown -R ubuntu:ubuntu foldername (Will give the ownership previlage)
+		> sudo chown -R ubuntu:ubuntu foldername (Will give the ownership previlage) 
 		> clip < ~/.ssh/id_rsa.pub (Coping the ssh key)
 		> sudo apt-get purge apache2 (This command will remove the installation of apache2)
 		> vim /etc/sshd_config (Password less authentification)
-	> sysctl -a (Load all settings)
+		> ps -ef | grep apache2 (find the process ID)
+		> netstat -antp (Find the all the open TCP ports>
+		> ss -tunlp
+		> ss -tunlp | grep apache2 (Will show the open ports)
+		> sysctl -a (Load all settings)
 	> sysctl -A (Same as above)
 	> sysctl -p (Apply all the settings)
 	> sysctl -a | wc -l (will show you the sys reading keys)
@@ -26,4 +30,8 @@ Linux Commands:
 	> echo "0" cat /proc/sys/net/ipv4/ip_forward (You can chnage the ipv4 0 to 1 or 1 to 0 as accordingly)
 	> net.ipv4.ip_forward = 0 (paste the line to the path => vim /etc/sysctl.config, Will set default as ipv4 0 even after restart you can see the output)
 	> net.ipv4.icmp.ignore_all=1 (paste the command in the path => vim /etc/sysctl/.config, ping won't work it will ignore)
-	> 
+	> ls -lSrh (to check the size of the files in the directory)
+	> du -h (To check the size of the hidden files)
+	> du -s (To check the disk usage of the folder)
+	> du -sh *(To check the size of the fies)
+	
