@@ -179,3 +179,37 @@ K8s usefull Commands:
 	> kubectl describe deployment | grep Image (you can see the output as Nginx and its version)
 	> kubectl get service/my-service (for checking the port to the external world)
 	> kubectl get svc -n kube-syatem
+	--------------------------------------------------------------------------------
+
+	Kubernetes on AWS before EKS:
+
+	-> Kubernetes taking IT by strom, with tremendous adoption.
+	-> IT professionals need to be able to create and operate K8s Clusters.
+	-> Traditionally, that meant deploy kubernetes yourseld:
+		> Deploy Master Nodes
+		> Deploy Etcd
+		> Setup CA (certificate) for TLS encryption 
+		> Setup monitoring/ auto scaling / self-healing.
+		> Setup Security such as Authentication and authorization
+		> Finally setup the workers Nodes.
+	-> After all this you're finally done( Just for the setup).
+	-> On top of being hard to deploy, the kubernetes Control Plane is hard to manage and oprate.
+	-> Teams
+		> Dev
+		> Test
+		> Pre-Prod
+		> Prod
+		> Finance team
+		> Reporting Team
+	All the above steps of setup is done by EKS.
+		> Master nodes in HA (High Availability)
+		> Etcd ensemble in HA.
+		> API Server
+		> KubeDNS
+		> Scheduler
+		> COntroller Manager
+		> Cloud Controler.
+		Just Deploy the worker Nodes and your Applications.
+		> Finally, Authentication is handled through IAM.
+
+

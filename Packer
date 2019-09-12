@@ -1,0 +1,10 @@
+Packer:- -> Packer Commands: build, fix, inspect, push, Validate, and Version.(Github: asquarezone )
+* How to write a Packer?
+-> Variables {objects}
+-> Builders [Array of Objects]
+-> Provisioners [Array of Ojects]
+
+Commands:-
+-> packer inspect
+-> packer build --help
+-> packer build -debug .\nginx.json

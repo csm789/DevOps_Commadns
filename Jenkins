@@ -13,6 +13,9 @@ Plugins: I have used Plugins in the Jenkins
 5. Docker
 6. Ansible
 7. Pipeline
+8. EC2
+9. AWS
+
 
 
 > yum install -y java-1.8.0-openjdk-devel >/dev/null
